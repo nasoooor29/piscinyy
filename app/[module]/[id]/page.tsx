@@ -20,10 +20,11 @@ import {
   RefreshCw,
   Terminal,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { findTaskById, languages } from "@/db";
+import { findNextTask, findTaskById, languages } from "@/db";
 import React from "react";
+import { useTaskStore } from "@/store/quest";
 
 interface Props {
   params: { module: string; id: string };
@@ -42,21 +43,23 @@ function Quest({ params }: Props) {
 
   const [testOutput, setTestOutput] = useState("");
   const [showTestCard, setShowTestCard] = useState(true);
+  const store = useTaskStore();
+  const router = useRouter();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["markdown", `/quests/subjects/${task.name}`],
     queryFn: async () => {
       const res = await fetch(
-        `/quests/subjects/${task.attrs.subject?.replaceAll(mod.toPath, "")}`,
+        `/quests/subjects/${task.attrs.subject?.replaceAll(mod.toPath, "").replaceAll("-", "_")}`,
       );
       if (!res.ok) throw new Error("Markdown not found");
       return res.text();
     },
   });
+  const next = findNextTask(task.id);
 
   const testMutation = useMutation({
     mutationFn: async () => {
-      console.log(`/api/${module}/${task.name}`);
       const res = await fetch(`/api/${module}/${task.name}`);
       if (!res.ok) throw new Error(await res.text());
       return res.json() as unknown as TestResult;
@@ -66,6 +69,10 @@ function Quest({ params }: Props) {
     },
     onSuccess: (data) => {
       setTestOutput(`${data.stdout}\n${data.stderr}`);
+      console.log(task.name);
+      router.push(`/rust/${next?.id}`);
+      store.markAs(task.name.replaceAll("_", "-"), true);
+      store.markAs(task.name, true);
     },
     onError: (error: Error) => {
       setTestOutput(`Error: ${error.message}`);

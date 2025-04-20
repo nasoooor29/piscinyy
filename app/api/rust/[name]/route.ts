@@ -19,8 +19,6 @@ export async function GET(
 ) {
   const name = params.name;
   const repoPath = `${env.REPOS_DIR}/piscine-rust`; // replace with your real path
-  console.log("name", name);
-  console.log("repo", repoPath);
 
   const dockerCommand = [
     "docker",

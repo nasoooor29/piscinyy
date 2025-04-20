@@ -113,8 +113,6 @@ function page({ params }: PageProps) {
         ) : (
           <Accordion type="single" collapsible className="w-full space-y-3">
             {Object.entries(mod.quests).map(([key, quest]) => {
-              console.log("kkk", key);
-              console.log("vale", quest);
               const taskCount = quest.children
                 ? Object.keys(quest.children).length
                 : 0;

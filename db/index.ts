@@ -49,3 +49,18 @@ export function findTaskById(id: number | string): Task | undefined {
       return task.id == id;
     });
 }
+
+export function findNextTask(current: number | string): Task | undefined {
+  const tasks = Object.values(languages).flatMap((language) =>
+    Object.values(language.quests).flatMap((quest) =>
+      Object.values(quest.children || {}),
+    ),
+  );
+
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i].id == current) {
+      return tasks[i + 1];
+    }
+  }
+  return undefined;
+}
