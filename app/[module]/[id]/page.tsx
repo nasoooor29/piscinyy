@@ -62,14 +62,18 @@ function Quest({ params }: Props) {
     mutationFn: async () => {
       const res = await fetch(`/api/${module}/${task.name}`);
       if (!res.ok) throw new Error(await res.text());
-      return res.json() as unknown as TestResult;
+      const data = (await res.json()) as unknown as TestResult;
+      if (data.exitCode !== 0) {
+        console.log(data);
+        throw new Error(`Error: ${data.stdout}\n${data.stderr}`);
+      }
+      return data;
     },
     onMutate: () => {
       setTestOutput("");
     },
     onSuccess: (data) => {
-      setTestOutput(`${data.stdout}\n${data.stderr}`);
-      console.log(task.name);
+      setTestOutput(`Error: ${data.stdout}\n${data.stderr}`);
       router.push(`/rust/${next?.id}`);
       store.markAs(task.name.replaceAll("_", "-"), true);
       store.markAs(task.name, true);
