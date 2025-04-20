@@ -265,7 +265,7 @@ function Quest({ params }: Props) {
                     <Button
                       onClick={runTest}
                       disabled={testMutation.isLoading}
-                      className="flex-1"
+                      className="flex-1 enabled:cursor-pointer"
                     >
                       {testMutation.isLoading ? (
                         <>
