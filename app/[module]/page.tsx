@@ -1,6 +1,5 @@
 "use client";
-
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { countQuests, languages } from "@/db";
 import React from "react";
 import Link from "next/link";
@@ -48,6 +47,20 @@ function page({ params }: PageProps) {
   ).length;
   const progressPercentage =
     totalTasks > 0 ? (completedCount / totalTasks) * 100 : 0;
+
+  // Filter quests based on the search query
+  const filteredQuests = useMemo(() => {
+    if (!searchQuery) return mod.quests;
+    return Object.fromEntries(
+      Object.entries(mod.quests).filter(
+        ([key, quest]) =>
+          quest.children &&
+          Object.values(quest.children).some((task) =>
+            task.name.toLowerCase().includes(searchQuery.toLowerCase()),
+          ),
+      ),
+    );
+  }, [searchQuery, mod.quests]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/90 pb-12">
@@ -102,7 +115,7 @@ function page({ params }: PageProps) {
           </div>
         </header>
 
-        {Object.keys(mod.quests).length === 0 ? (
+        {Object.keys(filteredQuests).length === 0 ? (
           <div className="py-12 text-center">
             <BookOpen className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
             <h3 className="mb-2 text-xl font-medium">No quests found</h3>
@@ -112,7 +125,7 @@ function page({ params }: PageProps) {
           </div>
         ) : (
           <Accordion type="single" collapsible className="w-full space-y-3">
-            {Object.entries(mod.quests).map(([key, quest]) => {
+            {Object.entries(filteredQuests).map(([key, quest]) => {
               const taskCount = quest.children
                 ? Object.keys(quest.children).length
                 : 0;
@@ -147,9 +160,22 @@ function page({ params }: PageProps) {
                             ? "default"
                             : "outline"
                         }
-                        className="mr-4 ml-auto"
+                        className="mr-4 ml-auto hover:no-underline"
                       >
                         {completedInSection}/{taskCount}
+                      </Badge>
+                      <Badge
+                        className="hover:cursor-pointer hover:no-underline"
+                        variant="secondary"
+                        onClick={() => {
+                          Object.keys(quest.children || {}).forEach(
+                            (taskKey) => {
+                              taskStore.toggleCompleted(taskKey);
+                            },
+                          );
+                        }}
+                      >
+                        Toggle Mark All
                       </Badge>
                     </div>
                   </AccordionTrigger>
