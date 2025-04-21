@@ -32,7 +32,7 @@ function CodeTester({ task, module }: { task: Task; module: string }) {
     },
     onSuccess: (data) => {
       setTestOutput(`Error: ${data.stdout}\n${data.stderr}`);
-      router.push(`/rust/${next?.id}`);
+      router.push(`/${module}/${next?.id}`);
       store.markAs(task.name.replaceAll("_", "-"), true);
       store.markAs(task.name, true);
     },
@@ -124,8 +124,8 @@ function CodeTester({ task, module }: { task: Task; module: string }) {
           <div className="relative">
             <div
               className={`${testMutation.isError ? "text-red-400" : "text-green-400"}
-                        h-[400px] overflow-auto rounded-md
-                          bg-black bg-opacity-30 p-4
+                        bg-opacity-30 h-[400px] overflow-auto
+                          rounded-md bg-black p-4
                           font-mono text-xs
                       text-green-400`}
             >

@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircle, ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { findTaskById, languages } from "@/db";
+import { findTaskById, getRelativePath, languages } from "@/db";
 import React from "react";
 import CodeTester from "./codeTester";
 import Markdown from "./markdown";
@@ -33,9 +33,11 @@ function Quest({ params }: Props) {
   const { data, isLoading, error } = useQuery({
     queryKey: ["markdown", `/quests/subjects/${task.name}`],
     queryFn: async () => {
-      const res = await fetch(
-        `/quests/subjects/${task.attrs.subject?.replaceAll(mod.toPath, "").replaceAll("-", "_")}`,
-      );
+      const pp = getRelativePath(task.attrs.subject || "");
+      if (pp === null) {
+        throw new Error("help");
+      }
+      const res = await fetch(`/quests/subjects/${pp}`);
       if (!res.ok) throw new Error("Markdown not found");
       return res.text();
     },
