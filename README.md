@@ -9,8 +9,6 @@ bun run dev
 ```
 finally open localhost:3000 if it don't work don't contact me
 
-
-
 ## what about DOCKER?
 make it ur self and make a pull request
 requirments:
@@ -19,3 +17,5 @@ requirments:
 ## there is errors
 i don't care it works on my machine
 
+## go and js don't work
+DIY
