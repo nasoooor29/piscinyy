@@ -15,7 +15,7 @@ requirments:
 - docker compose
 
 ## there is errors
-i don't care it works on my machine
+i don't care it works on my machine, i have them too but ignore them, just do ur job and finish the piscine
 
 ## go and js don't work
 DIY
