@@ -1,3 +1,4 @@
+"use client";
 import { ClipboardCopy, FileText } from "lucide-react";
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
