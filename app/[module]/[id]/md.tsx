@@ -7,14 +7,21 @@ import { getRelativePath } from "@/db";
 
 function Md({ task }: { task: Task }) {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["markdown", `/quests/subjects/${task.name}`],
+    queryKey: ["markdown", `${task.id}`],
     queryFn: async () => {
       const pp = getRelativePath(task.attrs.subject || "");
       if (pp === null) {
         throw new Error("help");
       }
-      const res = await fetch(`/quests/subjects/${pp}`);
-      if (!res.ok) throw new Error("Markdown not found");
+
+      const res = await fetch(`/quests/subjects/${task.name}/README.md`);
+      if (!res.ok) {
+        const githubOne = await fetch(
+          `https://raw.githubusercontent.com/01-edu/public/refs/heads/master/subjects/${task.name}/README.md`,
+        );
+        if (!res.ok) throw new Error("Failed to fetch from GitHub and locally");
+        return githubOne.text();
+      }
       return res.text();
     },
   });
