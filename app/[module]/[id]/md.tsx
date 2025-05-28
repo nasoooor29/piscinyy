@@ -1,52 +1,35 @@
 import { AlertCircle, Loader2 } from "lucide-react";
 import React from "react";
 import Markdown from "./markdown";
-import { useQuery } from "@tanstack/react-query";
-import { Task } from "@/types";
-import { getRelativePath } from "@/db";
 
-function Md({ task }: { task: Task }) {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["markdown", `${task.id}`],
-    queryFn: async () => {
-      const pp = getRelativePath(task.attrs.subject || "");
-      if (pp === null) {
-        throw new Error("help");
-      }
+interface MdProps {
+  markdownContent: string | null;
+  error: string | null;
+}
 
-      const res = await fetch(`/quests/subjects/${task.name}/README.md`);
-      if (!res.ok) {
-        const githubOne = await fetch(
-          `https://raw.githubusercontent.com/01-edu/public/refs/heads/master/subjects/${task.name}/README.md`,
-        );
-        if (!res.ok) throw new Error("Failed to fetch from GitHub and locally");
-        return githubOne.text();
-      }
-      return res.text();
-    },
-  });
+function Md({ markdownContent, error }: MdProps) {
   return (
     <>
       <div className="p-6 md:p-8">
-        {isLoading && (
+        {!markdownContent && !error && (
+          // You might not see this during initial load on the server
+          // but it's good for potential client-side transitions
           <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
             <Loader2 className="mb-4 h-8 w-8 animate-spin" />
             <p>Loading content...</p>
           </div>
         )}
 
-        {error instanceof Error && (
+        {error && (
           <div className="flex flex-col items-center justify-center py-12 text-red-500">
             <AlertCircle className="mb-4 h-8 w-8" />
             <p className="font-medium">Failed to load markdown.</p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              The requested content could not be found or loaded.
-            </p>
+            <p className="mt-2 text-sm text-muted-foreground">{error}</p>
           </div>
         )}
-        {data && !isLoading && (
+        {markdownContent && (
           <div className="prose prose-invert prose-headings:scroll-mt-20 max-w-none">
-            <Markdown data={data} />
+            <Markdown data={markdownContent} />
           </div>
         )}
       </div>
