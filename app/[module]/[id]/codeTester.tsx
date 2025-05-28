@@ -24,7 +24,6 @@ function CodeTester({ task, module }: { task: Task; module: string }) {
       const data = (await res.json()) as unknown as TestResult;
       if (data.exitCode !== 0) {
         console.log(data);
-        throw new Error(`Error: ${data.stdout}\n${data.stderr}`);
       }
       return data;
     },
