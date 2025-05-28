@@ -17,8 +17,8 @@ requirments:
 ## there is errors
 i don't care it works on my machine, i have them too but ignore them, just do ur job and finish the piscine
 
-## go and js don't work
-DIY
+## go piscine don't work
+DIY i ain't doing "allowed questions"
 
 ## future plans?
 - docker image with passing the docker socket and env var of the repos dir
