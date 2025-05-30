@@ -14,6 +14,7 @@ finally open localhost:3000 if it don't work don't contact me
 
 ## what about DOCKER?
 make it ur self and make a pull request
+
 requirments:
 - docker compose
 
