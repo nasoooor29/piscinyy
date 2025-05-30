@@ -26,6 +26,8 @@ export async function GET(
     "--rm",
     "-e",
     `EXERCISE=${name}`,
+    `-e`,
+    `RUST_BACKTRACE=1`,
     "-v",
     `${repoPath}:/root/student`,
     "--entrypoint",
