@@ -17,7 +17,8 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { name: string } },
 ) {
-  const name = params.name;
+  const p = await params;
+  const name = p.name;
   const repoPath = `${env.REPOS_DIR}/piscine-rust`; // replace with your real path
 
   const dockerCommand = [

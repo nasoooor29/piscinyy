@@ -4,6 +4,9 @@ edit the .env
 REPOS_DIR="" # this dir will have more dirs inside like $REPOS_DIR/piscine-rust make sure the dir names is like this
 # rust -> piscine-rust
 # js -> piscine-js
+# here is an example how the backend code 
+# `const repoPath = `${env.REPOS_DIR}/piscine-rust`;`
+# const repoPath = `${env.REPOS_DIR}/piscine-js`;
 bun i
 bun run dev
 ```
