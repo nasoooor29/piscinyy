@@ -32,7 +32,7 @@ function CodeTester({ task, module }: { task: Task; module: string }) {
       setTestOutput("");
     },
     onSuccess: (data) => {
-      setTestOutput(`Error: ${data.stdout}\n${data.stderr}`);
+      setTestOutput(`${data.stdout}\n${data.stderr}`);
       router.push(`/${module}/${next?.id}`);
       store.markAs(task.name.replaceAll("_", "-"), true);
       store.markAs(task.name, true);
