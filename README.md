@@ -1,3 +1,8 @@
+# Piscinyy
+imgs
+![alt](./public/piscines.png)
+![alt](./public/rust.png)
+![alt](./public/question.png)
 ## how can i run it
 edit the .env
 ```bash
