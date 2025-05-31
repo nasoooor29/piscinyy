@@ -78,8 +78,9 @@ echo "done"
 
         {/* Main content */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <Card className="overflow-hidden border shadow-md lg:col-span-2">
+          <Card className="py-0 overflow-hidden border shadow-md lg:col-span-2">
             <Md
+              task={task}
               markdownContent={markdownContent}
               error={errorLoadingMarkdown}
             />
