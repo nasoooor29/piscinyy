@@ -34,42 +34,28 @@ function Md({ markdownContent, error, task }: MdProps) {
         {markdownContent && (
           <div className="prose prose-invert prose-headings:scroll-mt-20 max-w-none">
             <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
-              <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 text-sm">
                 <div className="flex items-center gap-2">
-                  <Badge variant="default">{task.attrs.category}</Badge>
-                </div>
-                <div className="flex items-center gap-2">
-                  <strong className="text-foreground">Difficulty:</strong>
-                  <div className="flex items-center">
+                  <Badge variant="outline">{task.attrs.category}</Badge>
+                  <Badge variant="outline">level: {task.attrs.level}</Badge>
+                  <Badge variant="outline">{task.attrs.baseXp}xp</Badge>
+                  <Badge variant="outline">
+                    Difficulty:
                     {Array.from(
                       { length: task.attrs.difficulty },
                       (_, index) => (
                         <Star key={index} className="h-4 w-4 text-yellow-500" />
                       ),
                     )}
-                  </div>
+                  </Badge>
+                  <Badge variant="outline">{task.attrs.language}</Badge>
                 </div>
+                <Separator />
                 <div className="flex items-center gap-2">
-                  <strong className="text-foreground">XP:</strong>
-                  <span className="font-medium text-muted-foreground">
-                    {`${task.attrs.baseXp}xp`}
-                  </span>
+                  {task.attrs.expectedFiles?.map((file, index) => (
+                    <Badge variant="secondary">{file}</Badge>
+                  ))}
                 </div>
-                <div className="flex items-center gap-2">
-                  <strong className="text-foreground">Files to Submit:</strong>
-                  <span className="font-medium text-muted-foreground">
-                    {task.attrs.expectedFiles}
-                  </span>
-                </div>
-                {/* Uncomment for GoLang if needed */}
-                {/* <div className="flex items-center gap-2"> */}
-                {/*   <strong className="text-foreground"> */}
-                {/*     Allowed Functions: */}
-                {/*   </strong> */}
-                {/*   <span className="font-medium text-muted-foreground"> */}
-                {/*   {task.attrs.} */}
-                {/*   </span> */}
-                {/* </div> */}
               </div>
             </div>
             {/* Separator for clear visual break */}

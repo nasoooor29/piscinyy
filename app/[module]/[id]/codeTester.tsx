@@ -38,7 +38,7 @@ function CodeTester({ task, module }: { task: Task; module: string }) {
       store.markAs(task.name, true);
     },
     onError: (error: Error) => {
-      setTestOutput(`Error: ${error.message}`);
+      setTestOutput(`${error.message}`);
     },
   });
 
