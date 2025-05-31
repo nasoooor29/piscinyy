@@ -1,4 +1,4 @@
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, Star } from "lucide-react";
 import React from "react";
 import Markdown from "./markdown";
 import { Task } from "@/types";
@@ -34,19 +34,20 @@ function Md({ markdownContent, error, task }: MdProps) {
         {markdownContent && (
           <div className="prose prose-invert prose-headings:scroll-mt-20 max-w-none">
             <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
-              <h3 className="mb-4 text-2xl font-bold tracking-tight">
-                Additional Information
-              </h3>
               <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
                 <div className="flex items-center gap-2">
-                  <strong className="text-foreground">Category:</strong>
-                  <Badge variant="outline">{task.attrs.category}</Badge>
+                  <Badge variant="default">{task.attrs.category}</Badge>
                 </div>
                 <div className="flex items-center gap-2">
-                  <strong className="text-foreground">Rating:</strong>
-                  <span className="font-medium text-muted-foreground">
-                    {task.attrs.level}
-                  </span>
+                  <strong className="text-foreground">Difficulty:</strong>
+                  <div className="flex items-center">
+                    {Array.from(
+                      { length: task.attrs.difficulty },
+                      (_, index) => (
+                        <Star key={index} className="h-4 w-4 text-yellow-500" />
+                      ),
+                    )}
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <strong className="text-foreground">XP:</strong>
